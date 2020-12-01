@@ -31,8 +31,8 @@ def arg_parser():
 #main function
 def main():
     args = arg_parser()
-    for a in args.color_list[0]:
-        print(type(a))
+    for a in args.color_list:
+        print(type(int(a)))
 
 
 if __name__ == "__main__":
