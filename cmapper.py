@@ -17,6 +17,7 @@ def convert_hex_dec(color):
 
     #Strip # from color hex
     color = color.strip("#")
+    #print("color: {}".format(color))
 
     #Turn each hex calue RRGGBB into integer and divide by 255 to decimals
     red = int(color[:2], 16) /255
@@ -44,8 +45,10 @@ def create_cmap_dict(colors):
     }
 
     #gets length of cmap and subtracts 1 to make list evenly distributed between 0 and 1 later
-    cmap_len = len(colors)-1
-
+    if len(colors) == 1:
+        cmap_len = len(colors)
+    else: cmap_len = len(colors)-1
+   
     for i,c in enumerate(colors):
         #getting location of color code (where in the range 0-1 of cmap is this color (0 is beginning, 1 is end))
         loc = i/cmap_len
@@ -58,6 +61,24 @@ def create_cmap_dict(colors):
 
     return cdict
 
+def create_cmap(list_of_colors, cmap_name="Cust_Cmap"):
+    """
+    Creates custom matplotlib cmap based on a list of hex color codes
+
+    PARAMETERS
+    cmap_name: name of custom cmap
+    list_of_colors: list of hex color codes in format #RRGGBB
+
+    RETURNS
+    cust_cmap: Matplotlib colormap object
+    
+    """
+
+    color_list_tuples = [convert_hex_dec(x) for x in list_of_colors]
+    cmap_dict = create_cmap_dict(color_list_tuples)
+    cust_cmap = LinearSegmentedColormap(cmap_name, cmap_dict)
+
+    return cust_cmap
 
 #Parse Arguments
 def arg_parser():
@@ -73,44 +94,15 @@ def arg_parser():
     
     return args
 
-#TEST FUNCTION
-def test(cmap):
-    import numpy as np
-    #create fake data
-    x = np.arange(0, np.pi, 0.1)
-    y = np.arange(0, 2*np.pi, 0.1)
-    X, Y = np.meshgrid(x, y)
-    Z = np.cos(X) * np.sin(Y) * 10
-
-    fig, ax = plt.subplots(1, 1, figsize=(6, 9))
-    im = ax.imshow(Z, interpolation='nearest', origin='lower', cmap=cmap)
-    ax.set_title("TEST")
-    fig.colorbar(im, ax=ax)
-
 #main function
 def main():
-    args = arg_parser()
-
-    color_list_tuples = [convert_hex_dec(x) for x in args.color_list]
-    cmap_dict = create_cmap_dict(color_list_tuples)
-
-    cust_cmap = LinearSegmentedColormap(args.cmap_name, cmap.dict)
-
-    test(cust_cmap)
-    #plt.register_cmap(cmap=blue_red2)
-
-    # print("color tuples")
-    # print(color_list_tuples)
-    # print("length of color tuples list: {}".format(len(color_list_tuples)))
-
     
-    # print(color_list_tuples[0])
-    # print(cmap_dict["red"])
-
-    #running tests
-    # print(args.color_list)
-    # convert_hex_dec("#a5a8b6")
-    # create_cmap_dict(args.color_list)
+    args = arg_parser()
+    
+    cust_cmap = create_cmap(args.color_list, args.cmap_name)
+    
+    #Print cmap dictionary for copy-paste if invoked from command line
+    print(cust_cmap._segmentdata)
 
 if __name__ == "__main__":
     main()
