@@ -1,8 +1,7 @@
 #Imports
 import argparse
-
-# import matplot lib + colors
-
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 
 #convert hashes to 0-1s
 def convert_hex_dec(color):
@@ -67,12 +66,26 @@ def arg_parser():
     
     #create arguments
     parser.add_argument("color_list", nargs="+", help="list of color hex values")
+    parser.add_argument("--cmap_name", type=str, nargs='?', default="cust_cmap", help="name of cmap")
 
     #parse arguments to be returned
     args = parser.parse_args()
     
     return args
 
+#TEST FUNCTION
+def test(cmap):
+    import numpy as np
+    #create fake data
+    x = np.arange(0, np.pi, 0.1)
+    y = np.arange(0, 2*np.pi, 0.1)
+    X, Y = np.meshgrid(x, y)
+    Z = np.cos(X) * np.sin(Y) * 10
+
+    fig, ax = plt.subplots(1, 1, figsize=(6, 9))
+    im = ax.imshow(Z, interpolation='nearest', origin='lower', cmap=cmap)
+    ax.set_title("TEST")
+    fig.colorbar(im, ax=ax)
 
 #main function
 def main():
@@ -80,7 +93,12 @@ def main():
 
     color_list_tuples = [convert_hex_dec(x) for x in args.color_list]
     cmap_dict = create_cmap_dict(color_list_tuples)
-    
+
+    cust_cmap = LinearSegmentedColormap(args.cmap_name, cmap.dict)
+
+    test(cust_cmap)
+    #plt.register_cmap(cmap=blue_red2)
+
     # print("color tuples")
     # print(color_list_tuples)
     # print("length of color tuples list: {}".format(len(color_list_tuples)))
