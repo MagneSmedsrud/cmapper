@@ -13,7 +13,7 @@ def convert_hex_dec(color):
     color: string of hex color code in format #RRGGBB 
 
     RETURNS
-    red, green, blue: Each component with values between 0 and 1
+    red, green, blue: Tuple with each component with values between 0 and 1
     """
 
     #Strip # from color hex
@@ -23,10 +23,17 @@ def convert_hex_dec(color):
     red = int(color[:2], 16) /256
     green = int(color[2:4], 16) /256
     blue = int(color[4:], 16) /256
+    
+    return (red, green, blue)
 
-    return red, green, blue
+def convert_to_tuples(color_list):
+    """
+    Converts a list of 
+    """
 
-#def create cmap
+def create_cmap(colors):
+    print("yo")
+
 #list of hashes
 # len list = something about number of entries
 
