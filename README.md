@@ -13,7 +13,7 @@ Run cmapper.py with a list of color hex codes. The hex codes are separated with 
 
 Example - Creating a cmap with black and white colors: 
 
-`> python cmapper.py `
+`> python cmapper.py #000000 #FFFFFF`
 
 returns a cmap dictionary: `{'red': [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)], 'green': [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)], 'blue': [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)]}`
 
