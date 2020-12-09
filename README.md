@@ -4,7 +4,7 @@ cmapper is a simple pyscript to create custom colormaps for matplotlib. Simple .
 # Get started
 To "install", simply clone the files in this repo by doing the following: 
 ```
-> https://github.com/MagneSmedsrud/cmapper.git
+> git clone https://github.com/MagneSmedsrud/cmapper.git
 > cd cmapper
 ```
 
